@@ -1,0 +1,52 @@
+.red {
+    border: 1px solid red;
+}
+
+.green {
+    border: 1px solid green;
+}
+
+.yellow {
+    border: 1px solid yellow;
+}
+.login-container {
+    background-color: #f0f2f5;
+    min-height: 100vh;
+
+    .no-gutters {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .content-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .brand {
+            font-weight: bold;
+            font-size: 30px;
+            color: #0066ff;
+            
+        }
+        .detail {
+            font-size: 20px;
+            font-weight: 400;
+        }
+    }
+
+    .content-right {
+        border-radius: 10px;
+        background-color: #fff;
+
+        box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+        box-sizing: border-box;
+
+        .forgot-password {
+            text-decoration: none;
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
