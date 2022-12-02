@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Login from '../components/Login/Login'
 import Home from './../components/Home';
 import User from './../components/User';
+import Register from './../components/Register/Register';
 
 const AppRoutes = () => {
     return (
@@ -11,6 +12,7 @@ const AppRoutes = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/users" element={<User />} />
+                <Route path="/register" element={<Register />} />
                 {/* <Route path="/users"
                     element={
                         <PrivateRoute>

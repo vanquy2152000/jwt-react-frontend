@@ -1,15 +1,27 @@
-import Header from './components/Navigation/Header'
-import AppRoutes from './Routes/AppRoutes'
-import './App.scss'
+import Header from "./components/Navigation/Header";
+import AppRoutes from "./Routes/AppRoutes";
+import "./App.scss";
+import { ToastContainer } from "react-toastify";
 
-function App() {
-
+const App = () => {
   return (
     <>
       {/* <Header /> */}
       <AppRoutes />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
