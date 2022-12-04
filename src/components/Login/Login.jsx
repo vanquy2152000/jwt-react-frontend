@@ -32,7 +32,10 @@ const Login = () => {
       sessionStorage.setItem("account", JSON.stringify(data));
 
       toast.success(res.data.EM);
+
       navigate("/users");
+      
+      window.location.reload();
     }
     if (res && +res.data.EC !== 0) {
       toast.error(res.data.EM);

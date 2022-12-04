@@ -5,12 +5,14 @@ import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 
 const App = () => {
-  
-
   return (
     <>
-      <Header />
-      <AppRoutes />
+      <div className="app-header">
+        <Header />
+      </div>
+      <div className="app-container">
+        <AppRoutes />
+      </div>
       <ToastContainer
         position="top-right"
         autoClose={5000}

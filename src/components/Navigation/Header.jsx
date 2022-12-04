@@ -8,7 +8,7 @@ import _ from "lodash";
 const Header = () => {
   const handleLogOut = () => {};
 
-  const [account, setAccount] = useState();
+  const [account, setAccount] = useState({});
 
   useEffect(() => {
     let session = sessionStorage.getItem("account");
