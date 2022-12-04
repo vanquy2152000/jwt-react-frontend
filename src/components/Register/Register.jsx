@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Register.scss";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { registerNewUser } from "../../Services/userService";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -32,9 +32,16 @@ const Register = () => {
     // });
   }, []);
 
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   const isValidationError = () => {
-    let regx =
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let isValidateEmail = validateEmail(email);
 
     setObjCheckInput(defaultValidInput);
 
@@ -44,7 +51,7 @@ const Register = () => {
       return false;
     }
 
-    if (!regx.test(email)) {
+    if (!isValidateEmail) {
       setObjCheckInput({ ...defaultValidInput, isValidEmail: false });
       toast.error("Please enter a valid email address");
       return false;
@@ -67,16 +74,19 @@ const Register = () => {
     return true;
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     let check = isValidationError();
 
     if (check === true) {
-      axios.post("http://localhost:8080/api/v1/register", {
-        email,
-        phone,
-        password,
-        rePassword,
-      });
+      let res = await registerNewUser(email, username, phone, password);
+      console.log("check res", res.data);
+
+      if (res && +res.data.EC === 0) {
+        toast.success(res.data.EM);
+        navigate("/login");
+      } else {
+        toast.error(res.data.EM);
+      }
     }
   };
 
