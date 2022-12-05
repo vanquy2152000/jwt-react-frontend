@@ -1,8 +1,156 @@
-
+import { useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
+import { deleteUser, getListUser } from "../../Services/userService";
+import ReactPaginate from "react-paginate";
+import { toast } from "react-toastify";
+import ModalDeleteUser from "./Modal/ModalDeleteUser";
 
 const User = () => {
-  
-  return <div>User</div>;
+  const [listUser, setListUser] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentLimit, setCurrentLimit] = useState(4);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [dataModal, setDataModal] = useState({});
+
+  useEffect(() => {
+    fetchListUser();
+  }, [currentPage]);
+
+  const fetchListUser = async () => {
+    let res = await getListUser(currentPage, currentLimit);
+
+    if (res && res.DT && res.EC === 0) {
+      setTotalPages(res.DT.totalPages);
+      setListUser(res.DT.users);
+    }
+  };
+
+  const handlePageClick = async (e) => {
+    setCurrentPage(+e.selected + 1);
+  };
+
+  const handleDeleteUser = async (user) => {
+    setDataModal(user);
+    setShowModalDelete(true);
+  };
+
+  const handleCloseModal = () => {
+    setDataModal({});
+    setShowModalDelete(false);
+  };
+
+  const handleConfirmDeleteUser = async () => {
+    let res = await deleteUser(dataModal);
+
+    if (res && res.DT && res.EC === 0) {
+      toast.success("Delete user success");
+      await fetchListUser();
+      setShowModalDelete(false);
+    } else {
+      toast.error("Delete user failed!");
+    }
+  };
+
+  return (
+    <>
+      <div className="container">
+        <div className="manage-user-container mt-3  ">
+          <div className="user-header">
+            <h1 className="title">Table User</h1>
+            <div className="actions">
+              <button className="btn btn-primary">Refresh</button>
+              <button className="btn btn-success">Create New User</button>
+            </div>
+          </div>
+          <div className="user-body mt-3">
+            <Table bordered hover>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Email</th>
+                  <th>Username</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Sex</th>
+                  <th>Group</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {listUser && listUser.length > 0 ? (
+                  <>
+                    {listUser.map((item, index) => {
+                      return (
+                        <tr key={`row-${index}`}>
+                          <td>{item.id}</td>
+                          <td>{item.email}</td>
+                          <td>{item.username}</td>
+                          <td>{item.phone}</td>
+                          <td>{item.address}</td>
+                          <td>{item.sex}</td>
+                          <td>{item.Group ? item.Group.name : ""}</td>
+                          <td>
+                            <button className="btn btn-warning mx-3">
+                              Edit
+                            </button>
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => handleDeleteUser(item)}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>
+                    <tr>
+                      <td>Not Found User</td>
+                    </tr>
+                  </>
+                )}
+              </tbody>
+            </Table>
+          </div>
+          {totalPages > 0 && (
+            <div className="user-footer">
+              <ReactPaginate
+                className="pagination d-flex justify-content-center"
+                breakLabel="..."
+                nextLabel="Next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={3}
+                marginPagesDisplayed={3}
+                pageCount={totalPages}
+                previousLabel="< Previous"
+                renderOnZeroPageCount={null}
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                containerClassName="pagination"
+                activeClassName="active"
+              />
+            </div>
+          )}
+        </div>
+      </div>
+      <ModalDeleteUser
+        show={showModalDelete}
+        handleCloseModal={handleCloseModal}
+        dataModal={dataModal}
+        handleConfirmDeleteUser={handleConfirmDeleteUser}
+      />
+    </>
+  );
 };
 
 export default User;

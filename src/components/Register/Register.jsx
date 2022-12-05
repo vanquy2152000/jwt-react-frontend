@@ -79,13 +79,13 @@ const Register = () => {
 
     if (check === true) {
       let res = await registerNewUser(email, username, phone, password);
-      console.log("check res", res.data);
+      console.log("check res", res);
 
-      if (res && +res.data.EC === 0) {
-        toast.success(res.data.EM);
+      if (res && +res.EC === 0) {
+        toast.success(res.EM);
         navigate("/login");
       } else {
-        toast.error(res.data.EM);
+        toast.error(res.EM);
       }
     }
   };

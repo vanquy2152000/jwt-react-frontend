@@ -21,9 +21,9 @@ const Login = () => {
     }
 
     let res = await loginUser(valueLogin, password);
-    console.log("check data : ", res.data);
+    console.log("check data : ", res);
 
-    if (res && res.data && +res.data.EC === 0) {
+    if (res && res.data && +res.EC === 0) {
       let data = {
         isAuthenticated: true,
         token: "fake token",
@@ -31,14 +31,14 @@ const Login = () => {
 
       sessionStorage.setItem("account", JSON.stringify(data));
 
-      toast.success(res.data.EM);
+      toast.success(res.EM);
 
       navigate("/users");
       
       window.location.reload();
     }
-    if (res && +res.data.EC !== 0) {
-      toast.error(res.data.EM);
+    if (res && +res.EC !== 0) {
+      toast.error(res.EM);
     }
   };
 
