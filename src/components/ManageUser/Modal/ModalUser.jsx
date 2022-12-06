@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { createNewUser, fetchGroup } from "../../../Services/userService";
+import { createNewUser, fetchGroup, updateUser } from "../../../Services/userService";
 import './ModalUser.scss'
 import { toast } from 'react-toastify';
 import _ from 'lodash';
@@ -75,6 +75,8 @@ const ModalUser = (props) => {
     const checkValidateInputs = () => {
         setValidInputs(defaultInputsValid)
 
+        if (action === "UPDATE") return true;
+
         let arr = ['email', 'phone', 'password', 'group']
 
         let check = true;
@@ -99,12 +101,15 @@ const ModalUser = (props) => {
     const handleConfirmCreateUser = async () => {
         let check = checkValidateInputs();
         if (check === true) {
-            let res = await createNewUser({ ...userData, groupId: userData['group'] });
+            let res = action === "CREATE" ?
+                await createNewUser({ ...userData, groupId: userData['group'] })
+                :
+                await updateUser({ ...userData, groupId: userData['group'] })
 
             if (res && res.DT && res.EC === 0) {
                 toast.success(res.EM)
                 handleCloseModalUser();
-                setUserData({ ...defaultUserData, group: userGroups[0].id })
+                setUserData({ ...defaultUserData, group: userGroups && userGroups.length > 0 ? userGroups[0].id : '' })
             }
             if (res && res.EC !== 0) {
                 toast.error(res.EM)
@@ -113,10 +118,8 @@ const ModalUser = (props) => {
                 _validInputs[res.DT] = false;
                 setValidInputs(_validInputs)
             }
-
         }
     }
-    console.log("usergroup :", userGroups)
 
     const handleCloseModalUser = () => {
         onHideModalUser();
@@ -191,9 +194,9 @@ const ModalUser = (props) => {
                         <select
                             className="form-select"
                             onChange={(e) => handleOnChangeInput(e.target.value, "sex")}
-                            value={userData.sex}
+                            defaultValue={userData.sex}
                         >
-                            <option defaultValue="Male">Male</option>
+                            <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
                         </select>

@@ -2,7 +2,6 @@ import Header from "./components/Navigation/Header";
 import AppRoutes from "./Routes/AppRoutes";
 import "./App.scss";
 import { ToastContainer } from "react-toastify";
-import { useEffect, useState } from "react";
 
 const App = () => {
   return (

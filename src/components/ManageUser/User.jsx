@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import ModalDeleteUser from "./Modal/ModalDeleteUser";
 import ModalUser from "./Modal/ModalUser";
+import './User.scss';
 
 const User = () => {
   const [listUser, setListUser] = useState([]);
@@ -79,16 +80,29 @@ const User = () => {
     setShowModalUser(true);
   }
 
+  const handleRefresh = async () => {
+    await fetchListUser();
+  }
+
   return (
     <>
       <div className="container">
         <div className="manage-user-container mt-3  ">
-          <div className="user-header">
-            <h1 className="title">Table User</h1>
-            <div className="actions">
-              <button className="btn btn-primary">Refresh</button>
+          <div className="user-header d-sm-flex d-flex justify-content-between align-items-center">
+            <h1 className="title">Manage User</h1>
+            <div className="actions d-flex gap-3">
+              <button
+                className="btn btn-primary"
+                onClick={handleRefresh}
+              >
+                <i className="fa-solid fa-rotate" />
+                &nbsp;
+                <span>Refresh</span>
+              </button>
               <button className="btn btn-success" onClick={handleCreateNewUser}>
-                Create New User
+                <i className="fa-solid fa-plus" />
+                &nbsp;
+                <span>Create User</span>
               </button>
             </div>
           </div>
@@ -121,19 +135,19 @@ const User = () => {
                           <td>{item.address}</td>
                           <td>{item.sex}</td>
                           <td>{item.Group ? item.Group.name : ""}</td>
-                          <td>
-                            <button
-                              className="btn btn-warning mx-3"
+                          <td className="action">
+                            <span
+                              className="edit"
                               onClick={() => handleEditUser(item)}
                             >
-                              Edit
-                            </button>
-                            <button
-                              className="btn btn-danger"
+                              <i className="fa-sharp fa-solid fa-pencil" />
+                            </span>
+                            <span
+                              className="delete"
                               onClick={() => handleDeleteUser(item)}
                             >
-                              Delete
-                            </button>
+                              <i className="fa-solid fa-trash-can" />
+                            </span>
                           </td>
                         </tr>
                       );

@@ -16,14 +16,18 @@ const getListUser = (page, limit) => {
     return axios.get(`api/v1/user/read?page=${page}&limit=${limit}`)
 }
 
+const createNewUser = (userData) => {
+    return axios.post(`api/v1/user/create`, { ...userData })
+}
+
+const updateUser = (userData) => {
+    return axios.put("api/v1/user/update", { ...userData })
+}
 
 const deleteUser = (user) => {
     return axios.delete(`api/v1/user/delete`, { data: { id: user.id } })
 }
 
-const createNewUser = (userData) => {
-    return axios.post(`api/v1/user/create`, { ...userData })
-}
 
 const fetchGroup = () => {
     return axios.get("api/v1/group/read")
@@ -31,5 +35,5 @@ const fetchGroup = () => {
 
 
 export {
-    registerNewUser, loginUser, getListUser, deleteUser, fetchGroup, createNewUser
+    registerNewUser, loginUser, getListUser, deleteUser, fetchGroup, createNewUser, updateUser
 }

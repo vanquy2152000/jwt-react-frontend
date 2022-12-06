@@ -1,0 +1,23 @@
+.manage-user-container {
+    .user-body {
+        .action {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            .edit {
+                color: orange;
+                cursor: pointer;
+                &:hover {
+                    color: #cc9900;
+                }
+            }
+            .delete {
+                color: #cc0000;
+                cursor: pointer;
+                &:hover {
+                    color: #ff0000;
+                }
+            }
+        }
+    }
+}
