@@ -5,7 +5,7 @@ const ModalDeleteUser = (props) => {
   const { show, handleCloseModal, dataModal, handleConfirmDeleteUser } = props;
   return (
     <>
-      <Modal show={show} onHide={handleCloseModal} backdrop="static">
+      <Modal show={show} onHide={handleCloseModal} backdrop="static" centered>
         <Modal.Header closeButton>
           <Modal.Title>Delete User</Modal.Title>
         </Modal.Header>

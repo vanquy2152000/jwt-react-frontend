@@ -4,15 +4,22 @@ import { deleteUser, getListUser } from "../../Services/userService";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import ModalDeleteUser from "./Modal/ModalDeleteUser";
+import ModalUser from "./Modal/ModalUser";
 
 const User = () => {
   const [listUser, setListUser] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentLimit, setCurrentLimit] = useState(4);
+  const [currentLimit, setCurrentLimit] = useState(5);
   const [totalPages, setTotalPages] = useState(0);
 
+  // modal Delete user
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [dataModal, setDataModal] = useState({});
+
+  // modal Create/Update user
+  const [showModalUser, setShowModalUser] = useState(false);
+  const [actionModalUser, setActionModalUser] = useState("UPDATE");
+  const [dataModalUser, setDataModalUser] = useState({})
 
   useEffect(() => {
     fetchListUser();
@@ -31,14 +38,21 @@ const User = () => {
     setCurrentPage(+e.selected + 1);
   };
 
+  const onHideModalUser = async () => {
+    setShowModalUser(false);
+    setDataModalUser({})
+    await fetchListUser();
+  }
+
+  //Delete user
+  const handleCloseModalDelete = () => {
+    setDataModal({});
+    setShowModalDelete(false);
+  };
+
   const handleDeleteUser = async (user) => {
     setDataModal(user);
     setShowModalDelete(true);
-  };
-
-  const handleCloseModal = () => {
-    setDataModal({});
-    setShowModalDelete(false);
   };
 
   const handleConfirmDeleteUser = async () => {
@@ -53,6 +67,18 @@ const User = () => {
     }
   };
 
+  // UPdate user
+  const handleEditUser = (user) => {
+    setActionModalUser("UPDATE")
+    setShowModalUser(true);
+    setDataModalUser(user)
+  }
+
+  const handleCreateNewUser = () => {
+    setActionModalUser("CREATE")
+    setShowModalUser(true);
+  }
+
   return (
     <>
       <div className="container">
@@ -61,13 +87,16 @@ const User = () => {
             <h1 className="title">Table User</h1>
             <div className="actions">
               <button className="btn btn-primary">Refresh</button>
-              <button className="btn btn-success">Create New User</button>
+              <button className="btn btn-success" onClick={handleCreateNewUser}>
+                Create New User
+              </button>
             </div>
           </div>
           <div className="user-body mt-3">
             <Table bordered hover>
               <thead>
                 <tr>
+                  <th>No</th>
                   <th>ID</th>
                   <th>Email</th>
                   <th>Username</th>
@@ -84,6 +113,7 @@ const User = () => {
                     {listUser.map((item, index) => {
                       return (
                         <tr key={`row-${index}`}>
+                          <td>{(currentPage - 1) * currentLimit + index + 1}</td>
                           <td>{item.id}</td>
                           <td>{item.email}</td>
                           <td>{item.username}</td>
@@ -92,7 +122,10 @@ const User = () => {
                           <td>{item.sex}</td>
                           <td>{item.Group ? item.Group.name : ""}</td>
                           <td>
-                            <button className="btn btn-warning mx-3">
+                            <button
+                              className="btn btn-warning mx-3"
+                              onClick={() => handleEditUser(item)}
+                            >
                               Edit
                             </button>
                             <button
@@ -123,8 +156,8 @@ const User = () => {
                 breakLabel="..."
                 nextLabel="Next >"
                 onPageChange={handlePageClick}
-                pageRangeDisplayed={3}
-                marginPagesDisplayed={3}
+                pageRangeDisplayed={2}
+                marginPagesDisplayed={2}
                 pageCount={totalPages}
                 previousLabel="< Previous"
                 renderOnZeroPageCount={null}
@@ -143,9 +176,15 @@ const User = () => {
           )}
         </div>
       </div>
+      <ModalUser
+        action={actionModalUser}
+        show={showModalUser}
+        dataModalUser={dataModalUser}
+        onHideModalUser={onHideModalUser}
+      />
       <ModalDeleteUser
         show={showModalDelete}
-        handleCloseModal={handleCloseModal}
+        handleCloseModal={handleCloseModalDelete}
         dataModal={dataModal}
         handleConfirmDeleteUser={handleConfirmDeleteUser}
       />
