@@ -44,7 +44,6 @@ const Login = () => {
 
   const handleKeyDown = (e) => {
     if (e && e.key === "Enter") {
-      console.log("check enter", e.key);
       handleLogin();
     }
   };
