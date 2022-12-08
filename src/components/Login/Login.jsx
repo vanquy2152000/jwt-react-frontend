@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../Services/userService";
 import "./Login.scss";
 import { toast } from "react-toastify";
+import { UserContext } from "../../context/UserContext";
 
 const Login = () => {
   let navigate = useNavigate();
+
+  let { loginContext } = useContext(UserContext)
 
   const [valueLogin, setValueLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -21,21 +24,23 @@ const Login = () => {
     }
 
     let res = await loginUser(valueLogin, password);
-    console.log("check data : ", res);
-
     if (res && res.data && +res.EC === 0) {
+      let email = res.data.email;
+      let username = res.data.username;
+      let groupWithRoles = res.data.groupWithRoles;
+      let token = res.data.access_Token
+
       let data = {
         isAuthenticated: true,
-        token: "fake token",
+        token,
+        account: { groupWithRoles, email, username }
       };
 
-      sessionStorage.setItem("account", JSON.stringify(data));
+      loginContext(data)
 
       toast.success(res.EM);
 
       navigate("/users");
-      
-      window.location.reload();
     }
     if (res && +res.EC !== 0) {
       toast.error(res.EM);

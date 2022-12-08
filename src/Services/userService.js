@@ -33,7 +33,12 @@ const fetchGroup = () => {
     return axios.get("api/v1/group/read")
 }
 
+// Lay token da co account user
+const getUserAccount = () => {
+    return axios.get("api/v1/account")
+}
+
 
 export {
-    registerNewUser, loginUser, getListUser, deleteUser, fetchGroup, createNewUser, updateUser
+    registerNewUser, loginUser, getListUser, deleteUser, fetchGroup, createNewUser, updateUser, getUserAccount
 }
