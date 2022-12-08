@@ -7,12 +7,14 @@ const UserContext = createContext(null)
 const UserProvider = ({ children }) => {
     const location = useLocation();
 
-    const [user, setUser] = useState({
+    const userDefault = {
         isLoading: true,
-        authenticated: false,
+        isAuthenticated: false,
         token: '',
         account: {}
-    });
+    }
+
+    const [user, setUser] = useState(userDefault);
 
     const loginContext = (userData) => {
         setUser({ ...userData, isLoading: false })
@@ -38,9 +40,9 @@ const UserProvider = ({ children }) => {
             }
 
             console.log("check data", data)
-
             setUser(data)
-
+        } else {
+            setUser({ ...userDefault, isLoading: false })
         }
     }
 
