@@ -7,6 +7,9 @@ const instance = axios.create({
 
 instance.defaults.withCredentials = true;
 
+// Setup Bearer
+instance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("jwt")}`
+
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
     // Do something before request is sent
@@ -59,6 +62,7 @@ instance.interceptors.response.use(function (response) {
 
         // generic api error (server related) unexpected
         default: {
+            console.log("check error axios  : ", error)
             return Promise.reject(error);
         }
     }
