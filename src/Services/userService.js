@@ -38,7 +38,12 @@ const getUserAccount = () => {
     return axios.get("api/v1/account")
 }
 
+const logoutUser = () => {
+    return axios.post("api/v1/logout")
+}
+
 
 export {
-    registerNewUser, loginUser, getListUser, deleteUser, fetchGroup, createNewUser, updateUser, getUserAccount
+    registerNewUser, loginUser, getListUser, deleteUser, fetchGroup, createNewUser, updateUser, getUserAccount,
+    logoutUser
 }

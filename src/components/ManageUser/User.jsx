@@ -89,7 +89,7 @@ const User = () => {
       <div className="container">
         <div className="manage-user-container mt-3  ">
           <div className="user-header d-sm-flex d-flex justify-content-between align-items-center">
-            <h1 className="title">Manage User</h1>
+            <div className="title">Manage User</div>
             <div className="actions d-flex gap-3">
               <button
                 className="btn btn-primary"
@@ -106,7 +106,7 @@ const User = () => {
               </button>
             </div>
           </div>
-          <div className="user-body mt-3">
+          <div className="user-body">
             <Table bordered hover>
               <thead>
                 <tr>

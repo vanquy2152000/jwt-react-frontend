@@ -8,9 +8,6 @@ import { Rings } from 'react-loader-spinner'
 
 const App = () => {
   const { user } = useContext(UserContext);
-
-  console.log("user : ", user)
-
   return (
     <>
       {

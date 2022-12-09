@@ -20,6 +20,10 @@ const UserProvider = ({ children }) => {
         setUser({ ...userData, isLoading: false })
     }
 
+    const logoutContext = () => {
+        setUser({ ...userDefault, isLoading: false })
+    }
+
     // render 1 lan token co user da duoc luu
     const fetchUser = async () => {
         let res = await getUserAccount();
@@ -47,21 +51,16 @@ const UserProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if (window.location.pathname !== '/') {
+        if (window.location.pathname !== '/' && window.location.pathname !== '/login') {
             fetchUser();
+        } else {
+            setUser({ ...user, isLoading: false })
         }
     }, [])
 
 
-    const logout = () => {
-        setUser((user) => ({
-            name: '',
-            auth: false,
-        }));
-    };
-
     return (
-        <UserContext.Provider value={{ user, loginContext, logout }}>
+        <UserContext.Provider value={{ user, loginContext, logoutContext }}>
             {children}
         </UserContext.Provider>
     );

@@ -1,15 +1,32 @@
 import React, { useContext, useState } from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logoReact from "../../assets/images/logoReact.png";
 import "./Header.scss";
 import _ from "lodash";
 import { UserContext } from "../../context/UserContext";
+import { logoutUser } from "../../Services/userService";
+import { toast } from "react-toastify";
 
 const Header = () => {
-  const { user } = useContext(UserContext)
-
+  const { user, logoutContext } = useContext(UserContext)
   const location = useLocation()
+  const navigate = useNavigate();
+  console.log("user", user)
+
+  const handleLogout = async () => {
+    let res = await logoutUser(); // Clear cookies
+    localStorage.removeItem('jwt') // Clear localStorage
+    logoutContext() // Clear user and set isloading === false
+
+    if (res && +res.EC === 0) {
+      toast.success("Log out success")
+      navigate('/login')
+    } else {
+      toast.error("Logout error")
+    }
+  }
+
 
   if (user && user.isAuthenticated === true || location.pathname === "/") {
     return (
@@ -38,17 +55,28 @@ const Header = () => {
                 </NavLink>
                 {/* <NavLink to="/role" className="nav-link">Role</NavLink> */}
               </Nav>
-              <Nav>
+              <Nav className="d-flex gap-5">
+                {
+                  user?.account?.email &&
+                  <span className="nav-link">Welcome <b className="text-email">{user?.account?.email}</b></span>
+                }
+
                 <NavDropdown title="Setting" id="basic-nav-dropdown">
-                  {user &&
-                    !_.isEmpty(user) &&
-                    user.isAuthenticated === true ? (
-                    <NavDropdown.Item onClick={() => handleLogOut()}>
-                      Log Out
-                    </NavDropdown.Item>
-                  ) : (
-                    <NavDropdown.Item href="/login">Log in</NavDropdown.Item>
-                  )}
+                  {
+                    user && !_.isEmpty(user) && user.isAuthenticated === true ?
+                      (
+                        <div className="nav-setting">
+                          <NavDropdown.Item>
+                            Change Password
+                          </NavDropdown.Item>
+                          <NavDropdown.Divider />
+                          <NavDropdown.Item onClick={() => handleLogout()}>
+                            Log Out
+                          </NavDropdown.Item>
+                        </div>
+                      ) : (
+                        <NavLink to="/login" className="dropdown-item">Log in</NavLink>
+                      )}
                 </NavDropdown>
               </Nav>
             </Navbar.Collapse>

@@ -1,3 +1,28 @@
 .header-container {
     background-color: #ff6666;
+    img {
+        animation: App-logo-spin infinite 20s linear;
+    }
+
+    @keyframes App-logo-spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    .nav-setting {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        justify-content: center;
+        // align-items: center;
+    }
+
+    .text-email {
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }

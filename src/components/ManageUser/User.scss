@@ -1,5 +1,15 @@
 .manage-user-container {
+    .user-header {
+        .title {
+            font-size: 20px;
+        }
+    }
+
     .user-body {
+        margin-top: 20px;
+        overflow: auto;
+        width: inherit;
+
         .action {
             display: flex;
             align-items: center;
