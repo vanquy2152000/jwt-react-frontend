@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../components/Login/Login";
 import Project from "../components/Project";
+import Roles from "../components/Role/Roles";
 import Home from "./../components/Home";
 import User from "./../components/ManageUser/User";
 import Register from "./../components/Register/Register";
@@ -15,6 +16,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/roles" element={<Roles />} />
         <Route
           path="/users"
           element={

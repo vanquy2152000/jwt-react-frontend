@@ -1,0 +1,17 @@
+.role-container {
+    margin-top: 15px;
+    .actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 22px;
+        .add {
+            cursor: pointer;
+            color: green;
+        }
+        .delete {
+            cursor: pointer;
+            color: red;
+        }
+    }
+}

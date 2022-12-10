@@ -3,6 +3,20 @@
     img {
         animation: App-logo-spin infinite 20s linear;
     }
+    .logo-container {
+        .title-logo {
+            &:hover {
+                color: #33c1e1;
+            }
+        }
+    }
+    .nav-left {
+        .text-email {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
 
     @keyframes App-logo-spin {
         from {
@@ -10,19 +24,6 @@
         }
         to {
             transform: rotate(360deg);
-        }
-    }
-    .nav-setting {
-        display: flex;
-        flex-direction: column;
-        gap: 1px;
-        justify-content: center;
-        // align-items: center;
-    }
-
-    .text-email {
-        &:hover {
-            cursor: pointer;
         }
     }
 }

@@ -33,29 +33,31 @@ const Header = () => {
       <>
         <Navbar className="header-container" expand="lg">
           <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="#home" className="logo-container">
               <img
                 src={logoReact}
-                width="30"
-                height="30"
-                className="d-inline-block align-top"
+                width="25"
+                height="25"
+                className="logo"
                 alt="React Bootstrap logo"
               />
-              <span className="m-2">Tobi</span>
+              <span className="title-logo m-2">Tobi</span>
             </Navbar.Brand>
 
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
+              <Nav className="me-auto nav-right">
                 <NavLink to="/" className="nav-link">
                   Home
                 </NavLink>
                 <NavLink to="/users" className="nav-link">
                   Manage Users
                 </NavLink>
-                {/* <NavLink to="/role" className="nav-link">Role</NavLink> */}
+                <NavLink to="/roles" className="nav-link">
+                  Roles
+                </NavLink>
               </Nav>
-              <Nav className="d-flex gap-5">
+              <Nav className="d-flex gap-5 nav-left">
                 {
                   user?.account?.email &&
                   <span className="nav-link">Welcome <b className="text-email">{user?.account?.email}</b></span>
@@ -65,7 +67,7 @@ const Header = () => {
                   {
                     user && !_.isEmpty(user) && user.isAuthenticated === true ?
                       (
-                        <div className="nav-setting">
+                        <>
                           <NavDropdown.Item>
                             Change Password
                           </NavDropdown.Item>
@@ -73,7 +75,7 @@ const Header = () => {
                           <NavDropdown.Item onClick={() => handleLogout()}>
                             Log Out
                           </NavDropdown.Item>
-                        </div>
+                        </>
                       ) : (
                         <NavLink to="/login" className="dropdown-item">Log in</NavLink>
                       )}
