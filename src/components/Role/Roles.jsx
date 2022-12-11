@@ -71,7 +71,6 @@ const Roles = () => {
             toast.error("Input URL must not be empty....")
         }
     }
-
     return (
         <div className="role-container">
             <div className="container">
@@ -105,11 +104,14 @@ const Roles = () => {
                                     </div>
                                     <div className="col-2 actions">
                                         <i className="fa fa-plus-circle add"
-                                            onClick={() => handleAddNewInputRole()}
+                                            onClick={() => handleAddNewInputRole(val)}
                                         />
-                                        <i className="fa-solid fa-trash-can delete"
-                                            onClick={() => handleDeleteInputRole(key)}
-                                        />
+                                        {
+                                            i >= 1 &&
+                                            <i className="fa-solid fa-trash-can delete"
+                                                onClick={() => handleDeleteInputRole(key)}
+                                            />
+                                        }
                                     </div>
                                 </div>
                             )
