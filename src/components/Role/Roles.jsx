@@ -3,6 +3,7 @@ import './Role.scss'
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
+import { createNewRoles } from '../../Services/roleService';
 
 const Roles = () => {
 
@@ -46,7 +47,7 @@ const Roles = () => {
         return result;
     }
 
-    const handleSaveUser = () => {
+    const handleSaveUser = async () => {
         let invalidObj = Object.entries(listRoles).find(([key, role], i) => {
             return role && !role.url;
         })
@@ -54,7 +55,13 @@ const Roles = () => {
         if (!invalidObj) {
             /// call api
             let data = buildDataToPersist();
-            console.log("check data : ", data)
+            let res = await createNewRoles(data);
+
+            if (res && res.EC === 0) {
+                toast.success(res.EM)
+            } else {
+                toast.error(res.EM)
+            }
         } else {
             // check coi co invalid hay khong
             let _listRoles = _.cloneDeep(listRoles)
