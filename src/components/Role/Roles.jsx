@@ -2,24 +2,29 @@ import { useState } from 'react'
 import './Role.scss'
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
+import { toast } from 'react-toastify';
 
 const Roles = () => {
+
+    const defaultRole = { url: '', description: '', isValidUrl: true }
     const [listRoles, setListRoles] = useState({
-        child1: { url: '', description: '' }
+        child1: defaultRole
     })
 
     const handleOnChangeInput = (key, name, value) => {
         let _listRoles = _.cloneDeep(listRoles);
         _listRoles[key][name] = value;
+
+        if (value && name === "url") {
+            _listRoles[key]['isValidUrl'] = true;
+        }
+
         setListRoles(_listRoles);
     }
 
     const handleAddNewInputRole = () => {
         let _listRoles = _.cloneDeep(listRoles);
-        _listRoles[`child-${uuidv4()}`] = {
-            url: '',
-            description: ''
-        }
+        _listRoles[`child-${uuidv4()}`] = defaultRole;
         setListRoles(_listRoles)
     }
 
@@ -27,6 +32,37 @@ const Roles = () => {
         let _listRoles = _.cloneDeep(listRoles);
         delete _listRoles[key];
         setListRoles(_listRoles)
+    }
+
+    const buildDataToPersist = () => {
+        let _listRoles = _.cloneDeep(listRoles);
+        let result = [];
+        Object.entries(_listRoles).map(([key, role], i) => {
+            result.push({
+                url: role.url,
+                description: role.description
+            })
+        })
+        return result;
+    }
+
+    const handleSaveUser = () => {
+        let invalidObj = Object.entries(listRoles).find(([key, role], i) => {
+            return role && !role.url;
+        })
+
+        if (!invalidObj) {
+            /// call api
+            let data = buildDataToPersist();
+            console.log("check data : ", data)
+        } else {
+            // check coi co invalid hay khong
+            let _listRoles = _.cloneDeep(listRoles)
+            let key = invalidObj[0]
+            _listRoles[key]["isValidUrl"] = false;
+            setListRoles(_listRoles)
+            toast.error("Input URL must not be empty....")
+        }
     }
 
     return (
@@ -44,7 +80,7 @@ const Roles = () => {
                                         <label htmlFor="url">URL :</label>
                                         <input
                                             type="text"
-                                            className="form-control"
+                                            className={val.isValidUrl ? "form-control" : "form-control is-invalid"}
                                             id="url"
                                             value={val.url}
                                             onChange={(event) => handleOnChangeInput(key, 'url', event.target.value)}
@@ -73,7 +109,9 @@ const Roles = () => {
                         })}
 
                         <div>
-                            <button className="btn btn-warning mt-3">Save</button>
+                            <button className="btn btn-warning mt-3"
+                                onClick={() => handleSaveUser()}
+                            >Save</button>
                         </div>
 
                     </div>

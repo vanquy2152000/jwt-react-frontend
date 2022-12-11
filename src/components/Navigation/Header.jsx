@@ -12,7 +12,6 @@ const Header = () => {
   const { user, logoutContext } = useContext(UserContext)
   const location = useLocation()
   const navigate = useNavigate();
-  console.log("user", user)
 
   const handleLogout = async () => {
     let res = await logoutUser(); // Clear cookies

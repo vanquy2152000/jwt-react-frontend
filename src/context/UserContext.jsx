@@ -28,8 +28,6 @@ const UserProvider = ({ children }) => {
     const fetchUser = async () => {
         let res = await getUserAccount();
 
-        console.log("check res login : ", res)
-
         if (res && res.EC === 0) {
             let email = res.DT.email;
             let username = res.DT.username;
@@ -42,8 +40,6 @@ const UserProvider = ({ children }) => {
                 token,
                 account: { email, username, groupWithRoles }
             }
-
-            console.log("check data", data)
             setUser(data)
         } else {
             setUser({ ...userDefault, isLoading: false })
