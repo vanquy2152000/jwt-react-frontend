@@ -98,7 +98,7 @@ const ModalUser = (props) => {
 
     // Create user
 
-    const handleConfirmCreateUser = async () => {
+    const handleConfirmUser = async () => {
         let check = checkValidateInputs();
         if (check === true) {
             let res = action === "CREATE" ?
@@ -223,7 +223,7 @@ const ModalUser = (props) => {
                 <Button variant="secondary" onClick={handleCloseModalUser}>
                     Close
                 </Button>
-                <Button variant={action === "CREATE" ? "primary" : "warning"} onClick={() => handleConfirmCreateUser()}>
+                <Button variant={action === "CREATE" ? "primary" : "warning"} onClick={() => handleConfirmUser()}>
                     {action === "CREATE" ? "Save" : "Update"}
                 </Button>
             </Modal.Footer>
