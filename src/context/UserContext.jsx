@@ -5,8 +5,6 @@ import { getUserAccount } from '../Services/userService';
 const UserContext = createContext(null)
 
 const UserProvider = ({ children }) => {
-    const location = useLocation();
-
     const userDefault = {
         isLoading: true,
         isAuthenticated: false,
@@ -47,11 +45,7 @@ const UserProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if (window.location.pathname !== '/' && window.location.pathname !== '/login') {
-            fetchUser();
-        } else {
-            setUser({ ...user, isLoading: false })
-        }
+        fetchUser();
     }, [])
 
 

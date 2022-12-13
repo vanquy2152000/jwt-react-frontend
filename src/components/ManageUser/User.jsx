@@ -31,7 +31,14 @@ const User = () => {
 
     if (res && res.DT && res.EC === 0) {
       setTotalPages(res.DT.totalPages);
-      setListUser(res.DT.users);
+
+      if (res.DT.totalPages > 0 && res.DT.users.length === 0) {
+        setCurrentPage(+res.DT.totalPages);
+        await getListUser(+res.DT.totalPages, currentLimit);
+      }
+      if (res.DT.totalPages > 0 && res.DT.users.length > 0) {
+        setListUser(res.DT.users);
+      }
     }
   };
 
@@ -60,8 +67,9 @@ const User = () => {
     let res = await deleteUser(dataModal);
 
     if (res && res.DT && res.EC === 0) {
-      toast.success("Delete user success");
+      toast.success(res.EM);
       await fetchListUser();
+
       setShowModalDelete(false);
     } else {
       toast.error("Delete user failed!");
@@ -89,7 +97,7 @@ const User = () => {
       <div className="container">
         <div className="manage-user-container mt-3  ">
           <div className="user-header d-sm-flex d-flex justify-content-between align-items-center">
-            <div className="title">Manage User</div>
+            <h4 className="title">Manage User</h4>
             <div className="actions d-flex gap-3">
               <button
                 className="btn btn-primary"
@@ -111,7 +119,7 @@ const User = () => {
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>ID</th>
+                  {/* <th>ID</th> */}
                   <th>Email</th>
                   <th>Username</th>
                   <th>Phone</th>
@@ -128,7 +136,7 @@ const User = () => {
                       return (
                         <tr key={`row-${index}`}>
                           <td>{(currentPage - 1) * currentLimit + index + 1}</td>
-                          <td>{item.id}</td>
+                          {/* <td>{item.id}</td> */}
                           <td>{item.email}</td>
                           <td>{item.username}</td>
                           <td>{item.phone}</td>
@@ -185,6 +193,7 @@ const User = () => {
                 breakLinkClassName="page-link"
                 containerClassName="pagination"
                 activeClassName="active"
+                forcePage={+currentPage - 1}
               />
             </div>
           )}

@@ -2,14 +2,24 @@ import Header from "./components/Navigation/Header";
 import AppRoutes from "./Routes/AppRoutes";
 import "./App.scss";
 import { ToastContainer } from "react-toastify";
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { UserContext } from "./context/UserContext";
 import { Rings } from 'react-loader-spinner'
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 const App = () => {
   const { user } = useContext(UserContext);
+  const [scrollHeight, setScrollHeight] = useState(0)
+  const [scrollWidth, setScrollWidth] = useState(0)
+
+  useEffect(() => {
+    let windowHeight = window.innerHeight;
+    setScrollHeight(windowHeight);
+  }, [user])
+
+
   return (
-    <>
+    <Scrollbars autoHide style={{ height: scrollHeight }} className="scrollbars-app">
       {
         user && user.isLoading
           ?
@@ -42,7 +52,7 @@ const App = () => {
         pauseOnHover
         theme="light"
       />
-    </>
+    </Scrollbars>
   );
 };
 

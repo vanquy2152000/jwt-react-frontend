@@ -3,6 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 
 const ModalDeleteUser = (props) => {
   const { show, handleCloseModal, dataModal, handleConfirmDeleteUser } = props;
+
   return (
     <>
       <Modal show={show} onHide={handleCloseModal} backdrop="static" centered>
@@ -17,7 +18,7 @@ const ModalDeleteUser = (props) => {
             Close
           </Button>
           <Button variant="primary" onClick={handleConfirmDeleteUser}>
-            Save Changes
+            Save
           </Button>
         </Modal.Footer>
       </Modal>

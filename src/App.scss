@@ -3,7 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+::-webkit-scrollbar {
+    display: none;
+}
 .loading-container {
     display: flex;
     flex-direction: column;

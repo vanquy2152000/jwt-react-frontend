@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Register.scss";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { registerNewUser } from "../../Services/userService";
+import { UserContext } from "../../context/UserContext";
 
 const Register = () => {
+  let navigate = useNavigate();
+  let { user } = useContext(UserContext)
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [username, setUsername] = useState("");
@@ -20,17 +23,16 @@ const Register = () => {
 
   const [objCheckInput, setObjCheckInput] = useState(defaultValidInput);
 
-  let navigate = useNavigate();
+  useEffect(() => {
+    if (user && user.isAuthenticated === true) {
+      navigate('/')
+    }
+  }, [user])
+
 
   const handleLogin = () => {
     navigate("/login");
   };
-
-  useEffect(() => {
-    // axios.get("http://localhost:8080/api/test").then((data) => {
-    //   console.log("check data", data);
-    // });
-  }, []);
 
   const validateEmail = (email) => {
     return String(email)

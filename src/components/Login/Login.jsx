@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../Services/userService";
 import "./Login.scss";
 import { toast } from "react-toastify";
@@ -8,8 +8,7 @@ import { UserContext } from "../../context/UserContext";
 const Login = () => {
   let navigate = useNavigate();
 
-  let { loginContext } = useContext(UserContext)
-
+  let { user, loginContext } = useContext(UserContext)
   const [valueLogin, setValueLogin] = useState("");
   const [password, setPassword] = useState("");
 
@@ -54,6 +53,13 @@ const Login = () => {
       handleLogin();
     }
   };
+
+  useEffect(() => {
+    if (user && user.isAuthenticated === true) {
+      navigate('/')
+    }
+  }, [user])
+
 
   return (
     <div className="login-container">
@@ -101,10 +107,16 @@ const Login = () => {
                 Create New Account
               </button>
             </div>
+            <div className="text-center">
+              <Link to='/' className="nav-link back">
+                <i class="fa-solid fa-arrow-left" />
+                <span>Return to HomePage</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
