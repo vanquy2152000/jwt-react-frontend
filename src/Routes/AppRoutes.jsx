@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../components/Login/Login";
 import Project from "../components/Project";
+import GroupRole from "../components/GroupRole/GroupRole";
 import Roles from "../components/Role/Roles";
 import Home from "./../components/Home";
 import User from "./../components/ManageUser/User";
@@ -21,6 +22,14 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <Roles />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/group-role"
+          element={
+            <PrivateRoute>
+              <GroupRole />
             </PrivateRoute>
           }
         />

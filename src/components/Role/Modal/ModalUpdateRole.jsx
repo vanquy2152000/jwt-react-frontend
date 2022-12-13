@@ -64,6 +64,7 @@ const ModalUpdateRole = (props) => {
                     <div className="col-12 col-sm-6 form-group">
                         <label htmlFor="url">URL : </label>
                         <input
+                            disabled={true}
                             type="text"
                             className={"form-control"}
                             id="url"

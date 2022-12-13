@@ -55,6 +55,9 @@ const Header = () => {
                 <NavLink to="/roles" className="nav-link">
                   Roles
                 </NavLink>
+                <NavLink to="/group-role" className="nav-link">
+                  Group Role
+                </NavLink>
               </Nav>
               <Nav className="d-flex gap-5 nav-left">
                 {

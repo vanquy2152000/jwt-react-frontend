@@ -1,4 +1,4 @@
-import { fetchListRoles } from '../../../Services/roleService';
+import { fetchListRolesWithPagination } from '../../../Services/roleService';
 import { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { Table } from 'react-bootstrap';
 import { toast } from 'react-toastify';

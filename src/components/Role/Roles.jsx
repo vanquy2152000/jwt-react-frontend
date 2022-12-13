@@ -3,7 +3,7 @@ import './Role.scss'
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
-import { createNewRoles, deleteRole, fetchListRoles } from '../../Services/roleService';
+import { createNewRoles, deleteRole, fetchListRolesWithPagination } from '../../Services/roleService';
 import TableRole from './TableRole/TableRole';
 import ReactPaginate from 'react-paginate';
 import ModalUpdateRole from './Modal/ModalUpdateRole';
@@ -30,7 +30,7 @@ const Roles = () => {
     }, [currentPage])
 
     const getAllRoles = async () => {
-        let res = await fetchListRoles(currentPage, currentLimit);
+        let res = await fetchListRolesWithPagination(currentPage, currentLimit);
         console.log("res", res)
 
         if (res && +res.EC === 0) {
